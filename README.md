@@ -1,51 +1,53 @@
-# 💼 JobTrack - Job Application Tracker
+# 💼 JobTrack - A modern Flask-based Job Application Tracking System.
 
 <p align="center">
-  <img src="static/images/home.png" alt="JobTrack Home" width="100%">
+  <img src="static/images/home.png" alt="JobTrack Banner" width="100%">
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Python-3.12-blue?logo=python">
-  <img src="https://img.shields.io/badge/Flask-3.x-black?logo=flask">
-  <img src="https://img.shields.io/badge/SQLAlchemy-2.0-red">
-  <img src="https://img.shields.io/badge/Bootstrap-5-purple?logo=bootstrap">
-  <img src="https://img.shields.io/badge/MySQL-Database-orange?logo=mysql">
-  <img src="https://img.shields.io/badge/License-MIT-green">
+
+![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python)
+![Flask](https://img.shields.io/badge/Flask-3.x-black?logo=flask)
+![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-2.0-red)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-5-purple?logo=bootstrap)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Render-blue?logo=postgresql)
+![Render](https://img.shields.io/badge/Deployed%20on-Render-46E3B7)
+
 </p>
 
-A modern **Flask-based Job Application Tracker** that helps job seekers organize, manage, and monitor their job applications from one place.
+A modern **Flask-based Job Application Tracker** that helps users organize, manage, and monitor their job applications from one place.
 
-The application provides authentication, resume uploads, application tracking, statistics, CSV/PDF export, search, filtering, and a clean dashboard.
+The application includes secure authentication, resume uploads, dashboard statistics, PDF & CSV export, search/filter functionality, and is deployed on **Render** using **PostgreSQL**.
 
 ---
 
 # 🌐 Live Demo
 
-> **Coming Soon (Render Deployment)**
+### https://jobtrack-flask.onrender.com/
 
 ---
 
 # ✨ Features
 
-## 👤 User Authentication
+## 🔐 Authentication
 
 - User Registration
 - Secure Login & Logout
 - Password Hashing
 - Session Management
-- Protected Routes
+- Protected Routes using Flask-Login
 
 ---
 
 ## 💼 Job Application Management
 
-- Add Job Applications
+- Add Applications
 - Edit Applications
 - Delete Applications
+- View All Applications
 - Search by Company
 - Search by Role
 - Filter by Status
-- View Complete Application History
 
 ---
 
@@ -55,8 +57,8 @@ The application provides authentication, resume uploads, application tracking, s
 - Applied Jobs
 - Interviews
 - Offers
-- Rejections
 - Accepted Jobs
+- Rejected Jobs
 - Success Rate
 
 ---
@@ -71,47 +73,31 @@ The application provides authentication, resume uploads, application tracking, s
 ## 📁 Export
 
 - Export Applications to CSV
-- Generate PDF Report
+- Generate Professional PDF Report
 
 ---
 
 ## 🔒 Security
 
 - Password Hashing
-- Flask-Login Authentication
-- Session Protection
+- User Authentication
+- User-specific Data Isolation
 - Environment Variables
+- Protected Routes
 
 ---
 
-# 🛠 Tech Stack
+# 🛠️ Tech Stack
 
-## Backend
-
-- Python
-- Flask
-- Flask-Login
-- Flask-WTF
-- SQLAlchemy 2.0
-
-## Database
-
-- MySQL
-- PostgreSQL (Deployment Ready)
-
-## Frontend
-
-- HTML5
-- CSS3
-- Bootstrap 5
-- Jinja2
-
-## Other Libraries
-
-- ReportLab
-- Werkzeug
-- Gunicorn
-- Python-dotenv
+| Category | Technologies |
+|----------|--------------|
+| Backend | Flask, Python |
+| Database | PostgreSQL (Render), SQLAlchemy 2.0 |
+| Frontend | HTML5, CSS3, Bootstrap 5, Jinja2 |
+| Authentication | Flask-Login |
+| Forms | Flask-WTF |
+| PDF | ReportLab |
+| Deployment | Render + Gunicorn |
 
 ---
 
@@ -147,7 +133,7 @@ The application provides authentication, resume uploads, application tracking, s
 
 ---
 
-# ⚙ Installation
+# 🚀 Installation
 
 ## Clone Repository
 
@@ -191,9 +177,9 @@ pip install -r requirements.txt
 
 ---
 
-## Environment Variables
+## Configure Environment Variables
 
-Create a `.env` file inside the project root.
+Create a `.env` file in the project root.
 
 ```env
 SECRET_KEY=your-secret-key
@@ -205,13 +191,13 @@ UPLOAD_FOLDER=static/uploads
 
 ---
 
-## Run Project
+## Run the Application
 
 ```bash
 python app.py
 ```
 
-Open
+Visit:
 
 ```
 http://127.0.0.1:5000
@@ -219,28 +205,20 @@ http://127.0.0.1:5000
 
 ---
 
-# 🚀 Deploy on Render
+# ☁️ Deployment
 
-Build Command
+This application is deployed on **Render**.
+
+### Build Command
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Start Command
+### Start Command
 
 ```bash
 gunicorn app:app
-```
-
-Environment Variables
-
-```
-SECRET_KEY
-
-DATABASE_URL
-
-UPLOAD_FOLDER
 ```
 
 ---
@@ -248,38 +226,21 @@ UPLOAD_FOLDER
 # 📂 Project Structure
 
 ```
-JobTrack-Flask/
-
+JobTrack-Flask
 │
-
 ├── app.py
-
-├── models.py
-
 ├── forms.py
-
 ├── requirements.txt
-
 ├── Procfile
-
 ├── .env.example
-
 │
-
 ├── static/
-
 │   ├── css/
-
 │   ├── images/
-
 │   └── uploads/
-
 │
-
 ├── templates/
-
 │
-
 └── instance/
 ```
 
@@ -287,7 +248,7 @@ JobTrack-Flask/
 
 # 📚 What I Learned
 
-Building this project helped me gain practical experience with:
+This project strengthened my understanding of:
 
 - Flask Application Development
 - SQLAlchemy ORM
@@ -297,25 +258,26 @@ Building this project helped me gain practical experience with:
 - File Upload Handling
 - CSV Export
 - PDF Generation
-- Session Management
+- Dashboard Analytics
 - Environment Variables
-- Deployment with Render
+- Deployment on Render
+- PostgreSQL
 - Git & GitHub Workflow
 
 ---
 
-# 🔮 Future Improvements
+# 🚀 Future Improvements
 
 - Email Notifications
 - Interview Reminders
 - Calendar Integration
 - Company Logos
-- Dark Mode
 - Pagination
 - Sorting
 - REST API
 - Docker Support
 - Unit Testing
+- Admin Dashboard
 
 ---
 
@@ -323,11 +285,13 @@ Building this project helped me gain practical experience with:
 
 **Harshad Bhadwalkar**
 
-GitHub
+📧 Python Backend Developer
+
+**GitHub**
 
 https://github.com/harshadx27
 
-LinkedIn
+**LinkedIn**
 
 https://www.linkedin.com/in/harshad-bhadwalkar/
 
@@ -335,9 +299,7 @@ https://www.linkedin.com/in/harshad-bhadwalkar/
 
 # ⭐ Support
 
-If you found this project helpful, consider giving it a ⭐ on GitHub.
-
-It motivates me to continue building and sharing more projects.
+If you found this project useful, consider giving it a ⭐ on GitHub.
 
 ---
 
