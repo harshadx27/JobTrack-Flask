@@ -1,0 +1,226 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+Statistics
+{% endblock %}
+
+{% block page_title %}
+Statistics
+{% endblock %}
+
+{% block dashboard_content %}
+
+<div class="row g-4">
+
+    <div class="col-lg-3 col-md-6">
+        <div class="dashboard-card">
+            <small class="text-secondary">Total Applications</small>
+            <h2 class="mt-2 text-primary">{{ total }}</h2>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="dashboard-card">
+            <small class="text-secondary">Interviews</small>
+            <h2 class="mt-2 text-warning">{{ interview }}</h2>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="dashboard-card">
+            <small class="text-secondary">Offers</small>
+            <h2 class="mt-2 text-success">{{ offers }}</h2>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="dashboard-card">
+            <small class="text-secondary">Rejected</small>
+            <h2 class="mt-2 text-danger">{{ rejected }}</h2>
+        </div>
+    </div>
+
+</div>
+
+<div class="row g-4 mt-2">
+
+    <div class="col-lg-3 col-md-6">
+        <div class="dashboard-card">
+            <small class="text-secondary">Interview Rate</small>
+            <h2 class="mt-2">{{ interview_rate }}%</h2>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="dashboard-card">
+            <small class="text-secondary">Offer Rate</small>
+            <h2 class="mt-2">{{ offer_rate }}%</h2>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="dashboard-card">
+            <small class="text-secondary">Rejection Rate</small>
+            <h2 class="mt-2">{{ rejection_rate }}%</h2>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="dashboard-card">
+            <small class="text-secondary">Success Rate</small>
+            <h2 class="mt-2 text-success">{{ success_rate }}%</h2>
+        </div>
+    </div>
+
+</div>
+
+
+
+<div class="row g-4 mt-5">
+
+    <!-- Status Distribution (Left 50%) -->
+    <div class="col-lg-6">
+
+        <div class="dashboard-card">
+
+            <h3 class="mb-4 text-center">
+                Status Distribution
+            </h3>
+
+            <div class="d-flex justify-content-center align-items-center" style="height:300px;">
+
+                <canvas id="statusChart" style="max-width:300px; max-height:300px;"></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Platform Chart (Right 50%) -->
+    <div class="col-lg-6">
+
+        <div class="dashboard-card">
+
+            <h3 class="mb-4">
+                Platform-wise Applications
+            </h3>
+
+            <div style="position: relative; height:300px;">
+                <canvas id="platformChart"></canvas>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+
+    const platformCtx = document.getElementById("platformChart");
+
+    new Chart(platformCtx, {
+
+        type: "bar",
+
+        data: {
+
+            labels: {{ platform_labels| tojson }},
+
+        datasets: [{
+
+            label: "Applications",
+
+            data: {{ platform_values| tojson }},
+
+        backgroundColor: [
+            "#2563eb",
+            "#22c55e",
+            "#f59e0b",
+            "#8b5cf6",
+            "#ef4444",
+            "#14b8a6"
+        ],
+
+        borderRadius: 8
+
+        }]
+
+    },
+
+        options: {
+
+        responsive: true,
+
+        plugins: {
+
+            legend: {
+
+                display: false
+
+            }
+
+        },
+
+        scales: {
+
+            y: {
+
+                beginAtZero: true,
+
+                ticks: {
+
+                    precision: 0
+
+                }
+
+            }
+
+        }
+
+    }
+
+});
+
+    const statusCtx = document.getElementById('statusChart');
+
+    new Chart(statusCtx, {
+
+        type: 'doughnut',
+
+        data: {
+
+            labels: {{ status_labels| tojson }},
+
+        datasets: [{
+
+            data: {{ status_values| tojson }},
+
+        backgroundColor: {{ status_colors| tojson }},
+
+        borderWidth: 0
+
+        }]
+
+    },
+
+        options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'bottom'
+            }
+        }
+    }
+
+});
+</script>
+
+{% endblock %}

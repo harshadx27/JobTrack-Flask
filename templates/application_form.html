@@ -1,0 +1,129 @@
+{% extends "dashboard_base.html" %}
+
+{% from 'bootstrap5/form.html' import render_form %}
+
+{% block title %}
+{% if is_edit %}
+Edit Application
+{% else %}
+Add Application
+{% endif %}
+{% endblock %}
+
+{% block page_title %}
+{% if is_edit %}
+Edit Application
+{% else %}
+Add New Application
+{% endif %}
+{% endblock %}
+
+{% block dashboard_content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-lg-10">
+
+        <div class="dashboard-card">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <div>
+
+                    <h2 class="fw-bold mb-1">
+
+                        {% if is_edit %}
+                        Edit Application
+                        {% else %}
+                        Add New Application
+                        {% endif %}
+
+                    </h2>
+
+                    <p class="text-muted mb-0">
+
+                        {% if is_edit %}
+                        Update your application details.
+                        {% else %}
+                        Fill in the details of your job application.
+                        {% endif %}
+
+                    </p>
+
+                </div>
+
+                <a href="{{ url_for('applications') }}" class="btn btn-outline-secondary">
+
+                    <i class="bi bi-arrow-left"></i>
+
+                    Back
+
+                </a>
+
+            </div>
+
+            <hr>
+
+            <form method="POST" enctype="multipart/form-data">
+
+                {{ form.hidden_tag() }}
+
+
+                {% for field in form %}
+
+                {% if field.type != "CSRFTokenField" %}
+
+
+                <div class="mb-3">
+
+                    {{ field.label(class="form-label") }}
+
+                    {% if field.type == "SelectField" %}
+                    {{ field(class="form-select") }}
+                    {% else %}
+                    {{ field(class="form-control") }}
+                    {% endif %}
+
+
+                    {% if field.errors %}
+
+                    {% for error in field.errors %}
+
+                    <div class="text-danger">
+                        {{ error }}
+                    </div>
+
+                    {% endfor %}
+
+                    {% endif %}
+
+
+                </div>
+
+
+                {% endif %}
+
+
+                {% endfor %}
+
+
+                <button type="submit" class="btn btn-primary">
+
+                    {% if is_edit %}
+                    Update Application
+                    {% else %}
+                    Add Application
+                    {% endif %}
+
+                </button>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

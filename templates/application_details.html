@@ -1,0 +1,236 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+Application Details
+{% endblock %}
+
+{% block page_title %}
+Application Details
+{% endblock %}
+
+{% block dashboard_content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <a href="{{ url_for('applications') }}" class="btn btn-outline-secondary">
+
+        <i class="bi bi-arrow-left"></i>
+
+        Back to Application
+
+    </a>
+
+    <div>
+
+        <a href="{{ url_for('edit_application', application_id=application.id) }}" class="btn btn-warning me-2">
+            <i class="bi bi-pencil-square"></i>
+            Edit
+        </a>
+
+        <form action="{{ url_for('delete_application', application_id=application.id) }}" method="post"
+            class="d-inline">
+            <button type="submit" class="btn btn-danger">
+                <i class="bi bi-trash"></i>
+                Delete
+            </button>
+        </form>
+
+    </div>
+
+</div>
+
+
+<div class="dashboard-card">
+
+    <div class="d-flex justify-content-between align-items-center">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                {{ application.company }}
+
+            </h2>
+
+            <h5 class="text-secondary">
+
+                {{ application.role }}
+
+            </h5>
+
+        </div>
+
+        {% set status_badge = {
+            "Applied": "bg-primary",
+            "Interview Scheduled": "bg-warning",
+            "Offer Received": "bg-success",
+            "Rejected": "bg-danger",
+            "Pending": "bg-secondary"
+        } %}
+        <span class="badge {{ status_badge.get(application.status, 'bg-secondary') }} fs-6 px-3 py-2">
+
+            {{ application.status }}
+
+        </span>
+
+    </div>
+
+    <hr>
+
+    <div class="row gy-4">
+
+        <div class="col-md-6">
+
+            <strong>Company</strong>
+
+            <p>{{ application.company }}</p>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <strong>Applied Date</strong>
+
+            <p>{{ application.applied_date }}</p>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <strong>Role</strong>
+
+            <p>{{ application.role }}</p>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <strong>Interview Date</strong>
+
+            <p>{{ application.interview_date }}</p>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <strong>Location</strong>
+
+            <p>{{ application.location }}</p>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <strong>Salary</strong>
+
+            <p>{{ application.salary }}</p>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <strong>Applied Via</strong>
+
+            <p>{{ application.platform }}</p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Job URL -->
+
+{% if application.job_link %}
+<div class="dashboard-card mt-4">
+
+    <h4 class="mb-3">
+
+        Job URL
+
+    </h4>
+
+    <div class="d-flex justify-content-between align-items-center">
+
+        <span class="text-truncate me-3">
+
+            {{ application.job_link }}
+
+        </span>
+
+        <a href="{{ application.job_link }}" target="_blank" class="btn btn-primary">
+
+            <i class="bi bi-box-arrow-up-right"></i>
+
+            Open Job
+
+        </a>
+
+    </div>
+
+</div>
+{% endif %}
+
+
+<!-- Resume -->
+
+<div class="dashboard-card mt-4">
+
+    <h4 class="mb-3">
+        Resume
+    </h4>
+
+    {% if application.resume %}
+
+    <a href="{{ url_for('download_resume', application_id=application.id) }}" target="_blank"
+        class="btn btn-success">
+
+        <i class="bi bi-file-earmark-pdf"></i>
+
+        View Resume
+
+    </a>
+
+    {% else %}
+
+    <p class="text-muted">
+        No resume uploaded.
+    </p>
+
+    {% endif %}
+
+</div>
+
+
+<!-- Notes -->
+
+<div class="dashboard-card mt-4">
+
+    <h4 class="mb-3">
+
+        Notes
+
+    </h4>
+
+    {% if application.notes %}
+
+    <p style="white-space: pre-line;">
+
+        {{ application.notes }}
+
+    </p>
+
+    {% else %}
+
+    <p class="text-muted">
+
+        No notes added.
+
+    </p>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

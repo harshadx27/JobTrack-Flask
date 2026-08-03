@@ -1,0 +1,404 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+Applications
+{% endblock %}
+
+{% block page_title %}
+Applications
+{% endblock %}
+
+{% block dashboard_content %}
+
+<div class="dashboard-card mb-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold mb-1">
+                Applications
+            </h2>
+
+            <p class="text-secondary mb-0">
+                Manage all your internship and job applications.
+            </p>
+
+        </div>
+
+        <div class="d-flex gap-2">
+
+            <a href="{{ url_for('export_csv', search=search, status=status, platform=platform, sort=sort) }}"
+               class="btn btn-outline-success">
+
+                <i class="bi bi-file-earmark-spreadsheet"></i>
+
+                Export CSV
+
+            </a>
+
+            <a href="{{ url_for('export_pdf', search=search, status=status, platform=platform, sort=sort) }}"
+               class="btn btn-outline-danger">
+
+                <i class="bi bi-file-earmark-pdf"></i>
+
+                Export PDF
+
+            </a>
+
+            <a href="{{ url_for('add_application') }}" class="btn btn-primary">
+
+                <i class="bi bi-plus-circle me-2"></i>
+
+                Add Application
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <form method="GET">
+
+        <div class="row g-3">
+
+            <!-- Search -->
+
+            <div class="col-lg-4">
+
+                <div class="input-group">
+
+                    <span class="input-group-text">
+
+                        <i class="bi bi-search"></i>
+
+                    </span>
+
+                    <input type="text" class="form-control" name="search"
+                        placeholder="Search company, role, location..." value="{{ request.args.get('search','') }}">
+
+                </div>
+
+            </div>
+
+            <!-- Status -->
+
+            <div class="col-lg-2">
+
+                <select class="form-select" name="status">
+
+                    <option value="" {% if not status %}selected{% endif %}>All Status</option>
+
+                    <option value="Applied" {% if status=='Applied' %}selected{% endif %}>Applied</option>
+
+                    <option value="Interview Scheduled" {% if status=='Interview Scheduled' %}selected{% endif %}>Interview Scheduled</option>
+
+                    <option value="Offer Received" {% if status=='Offer Received' %}selected{% endif %}>Offer Received</option>
+
+                    <option value="Rejected" {% if status=='Rejected' %}selected{% endif %}>Rejected</option>
+
+                    <option value="Pending" {% if status=='Pending' %}selected{% endif %}>Pending</option>
+
+                </select>
+
+            </div>
+
+            <!-- Platform -->
+
+            <div class="col-lg-2">
+
+                <select class="form-select" name="platform">
+
+                    <option value="" {% if not platform %}selected{% endif %}>All Platforms</option>
+
+                    <option {% if platform=='LinkedIn' %}selected{% endif %}>LinkedIn</option>
+
+                    <option {% if platform=='Indeed' %}selected{% endif %}>Indeed</option>
+
+                    <option {% if platform=='Naukri' %}selected{% endif %}>Naukri</option>
+
+                    <option {% if platform=='Company Website' %}selected{% endif %}>Company Website</option>
+
+                    <option {% if platform=='Referral' %}selected{% endif %}>Referral</option>
+
+                </select>
+
+            </div>
+
+            <!-- Sort -->
+
+            <div class="col-lg-2">
+
+                <select class="form-select" name="sort">
+
+                    <option value="newest" {% if sort=='newest' %}selected{% endif %}>Newest</option>
+
+                    <option value="oldest" {% if sort=='oldest' %}selected{% endif %}>Oldest</option>
+
+                    <option value="company_asc" {% if sort=='company_asc' %}selected{% endif %}>Company A-Z</option>
+
+                    <option value="company_desc" {% if sort=='company_desc' %}selected{% endif %}>Company Z-A</option>
+
+                    <option value="interview" {% if sort=='interview' %}selected{% endif %}>Interview Date</option>
+
+                </select>
+
+            </div>
+
+            <div class="col-lg-2">
+
+                <button class="btn btn-primary w-100" style="height:36px; padding:4px 12px;">
+                    <i class="bi bi-funnel me-1"></i>
+
+                    Apply
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% if applications %}
+
+<div class="table-responsive">
+
+    <table class="table table-hover align-middle" id="applicationsTable">
+
+        <thead class="table-light">
+
+            <tr>
+
+                <th>Company</th>
+
+                <th>Role</th>
+
+                <th>Status</th>
+
+                <th>Applied</th>
+
+                <th>Interview</th>
+
+                <th>Location</th>
+
+                <th>Platform</th>
+
+                <th class="text-center">Actions</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for application in applications %}
+
+            <tr>
+
+                <td>
+
+                    <a href="{{ url_for('application_details',
+        application_id=application.id) }}" class="fw-semibold text-decoration-none">
+
+                        {{ application.company }}
+
+                    </a>
+
+                </td>
+
+                <td>
+                    {{ application.role }}
+                </td>
+
+                <td>
+                    {{ application.status }}
+                </td>
+
+                <td>
+
+                    {{ application.applied_date or "-" }}
+
+                </td>
+
+                <td>
+
+                    {{ application.interview_date or "-" }}
+
+                </td>
+
+                <td>
+
+                    {{ application.location }}
+
+                </td>
+
+                <td>
+
+                    {{ application.platform or "-" }}
+
+                </td>
+
+                <td class="text-end">
+
+                    <div class="dropdown">
+
+                        <button class="btn btn-light btn-sm border" data-bs-toggle="dropdown">
+
+                            <i class="bi bi-three-dots-vertical"></i>
+
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-end">
+
+                            <li>
+
+                                <a class="dropdown-item" href="{{ url_for('application_details',
+                    application_id=application.id) }}">
+
+                                    <i class="bi bi-eye me-2"></i>
+                                    View
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a class="dropdown-item" href="{{ url_for('edit_application',
+                    application_id=application.id) }}">
+
+                                    <i class="bi bi-pencil me-2"></i>
+                                    Edit
+
+                                </a>
+
+                            </li>
+
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+
+                            <li>
+
+                                <form action="{{ url_for('delete_application',
+                    application_id=application.id) }}" method="POST">
+
+                                    <button class="dropdown-item text-danger"
+                                        onclick="return confirm('Delete application?')">
+
+                                        <i class="bi bi-trash me-2"></i>
+                                        Delete
+
+                                    </button>
+
+                                </form>
+
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+    <nav class="mt-4">
+
+        <ul class="pagination justify-content-center">
+
+            {% if pagination.has_prev %}
+
+            <li class="page-item">
+
+                <a class="page-link" href="{{ url_for('applications',
+page=pagination.prev_num, search=search, status=status, platform=platform, sort=sort) }}">
+
+                    Previous
+
+                </a>
+
+            </li>
+
+            {% endif %}
+
+            {% for p in pagination.iter_pages() %}
+
+            {% if p %}
+
+            <li class="page-item
+{% if p == pagination.page %}active{% endif %}">
+
+                <a class="page-link" href="{{ url_for('applications',
+page=p, search=search, status=status, platform=platform, sort=sort) }}">
+
+                    {{ p }}
+
+                </a>
+
+            </li>
+
+            {% endif %}
+
+            {% endfor %}
+
+            {% if pagination.has_next %}
+
+            <li class="page-item">
+
+                <a class="page-link" href="{{ url_for('applications',
+page=pagination.next_num, search=search, status=status, platform=platform, sort=sort) }}">
+
+                    Next
+
+                </a>
+
+            </li>
+
+            {% endif %}
+
+        </ul>
+
+    </nav>
+
+</div>
+
+{% else %}
+
+<div class="text-center py-5">
+
+    <i class="bi bi-briefcase display-3 text-secondary"></i>
+
+    <h4 class="mt-3">
+
+        No Applications Found
+
+    </h4>
+
+    <p class="text-muted">
+
+        Start tracking your internship journey today.
+
+    </p>
+
+    <a href="{{ url_for('add_application') }}" class="btn btn-primary">
+
+        Add First Application
+
+    </a>
+
+</div>
+
+{% endif %}
+
+</div>
+
+{% endblock %}
