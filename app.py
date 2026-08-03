@@ -1201,8 +1201,8 @@ def delete_application(application_id):
     flash("Application deleted successfully.", "success")
     return redirect(url_for("applications"))
 
-
+with app.app_context():
+    db.create_all()
+    
 if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()
     app.run()
