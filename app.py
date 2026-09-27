@@ -66,17 +66,32 @@ class Base(DeclarativeBase):
     pass
 
 
+
 database_url = os.environ.get("DATABASE_URL")
 
-# Render/PostgreSQL compatibility
-if database_url and database_url.startswith("postgres://"):
-    database_url = database_url.replace(
-        "postgres://",
-        "postgresql://",
-        1,
-    )
+# PostgreSQL compatibility: explicitly use psycopg2
+if database_url:
+    if database_url.startswith("postgres://"):
+        database_url = database_url.replace(
+            "postgres://",
+            "postgresql+psycopg2://",
+            1
+        )
+    elif database_url.startswith("postgresql://"):
+        database_url = database_url.replace(
+            "postgresql://",
+            "postgresql+psycopg2://",
+            1
+        )
+    elif database_url.startswith("postgresql+psycopg://"):
+        database_url = database_url.replace(
+            "postgresql+psycopg://",
+            "postgresql+psycopg2://",
+            1
+        )
 
 app.config["SQLALCHEMY_DATABASE_URI"] = database_url
+
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
